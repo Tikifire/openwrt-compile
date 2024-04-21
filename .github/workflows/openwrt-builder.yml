@@ -57,6 +57,15 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
+    # https://github.com/coolsnowwolf/lede/pull/7796
+    # use ccache to accelerate compilation
+    # klever1988/cachewrtbuild@main ==renamed to=> stupidloud/cachewrtbuild@main
+    - name: Cache
+      uses: stupidloud/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        prefix: $GITHUB_WORKSPACE/openwrt
+
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
